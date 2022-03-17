@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieSale from "./components/movieSale";
 import CartItem from "./components/cartItem";
+import Payment from "./components/payment";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -12,14 +13,24 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+     bottom: {
+          borderBottom: "1px",
+     },
+}));
 
 export default function Sale() {
+     const classes = useStyles();
      const history = useNavigate();
      const [movies, setMovies] = useState([]);
      const [cart, setCart] = useState([]);
      const [subTotal, setSubTotal] = useState([]);
      const [subTotalValue, setSubTotalValue] = useState(0);
+     const [totalValue, setTotalValue] = useState(0);
      const [rerender, setRerender] = useState(false);
+     const taxRate = 0.13;
 
      useEffect(() => {
           console.log("sales page");
@@ -35,6 +46,7 @@ export default function Sale() {
                     }, 0);
 
                     setSubTotalValue(sum);
+                    setTotalValue(sum * taxRate + sum);
                }
           }
 
@@ -56,6 +68,18 @@ export default function Sale() {
           if (found === undefined) setCart([...cart, movie]);
      };
 
+     const removeFromCart = (movie) => {
+          const result = cart.filter((e) => e.id !== movie.id);
+          setCart(result);
+          if (result.length === 0) {
+               setSubTotal([]);
+               setSubTotalValue(0);
+          } else {
+               const value = subTotal.filter((e) => e.id !== movie.id);
+               setSubTotal(value);
+          }
+     };
+
      const addToSubtotal = (retail) => {
           let foundIndex = subTotal.findIndex((x) => x.id === retail.id);
           if (foundIndex !== -1) {
@@ -68,8 +92,6 @@ export default function Sale() {
           }
      };
 
-     const removeSingleItem = (movie) => {};
-
      const clearCart = () => {
           let emptyCart = cart;
           emptyCart.length = 0;
@@ -80,7 +102,7 @@ export default function Sale() {
 
      return (
           <Grid container spacing={2}>
-               <Grid item xs={8}>
+               <Grid item md={6}>
                     {movies.length > 0 ? (
                          <div>
                               <TableContainer component={Paper}>
@@ -110,19 +132,31 @@ export default function Sale() {
                          <div> no Movies to show</div>
                     )}
                </Grid>
-               <Grid item xs={4}>
-                    {cart.length > 0 && (
-                         <div>
-                              {cart.map((item, i) => {
-                                   return <CartItem data={item} key={i} subtotal={addToSubtotal} remove={removeSingleItem}></CartItem>;
-                              })}
-                         </div>
-                    )}
-                    <Grid item xs={4}>
-                         <Button onClick={clearCart}> Clear</Button>
+               <Grid item md={6}>
+                    <Grid container spacing={2}>
+                         <Grid item md={12}>
+                              {cart.length > 0 && (
+                                   <div>
+                                        {cart.map((item, i) => {
+                                             return <CartItem data={item} key={i} subtotal={addToSubtotal} remove={removeFromCart}></CartItem>;
+                                        })}
+                                   </div>
+                              )}
+                         </Grid>
                     </Grid>
-                    <Grid item xs={3}>
-                         SUBTOTAL: {subTotalValue > 0 && <div>{subTotalValue}</div>}
+                    <Grid container spacing={2}>
+                         <Grid item xs={4}>
+                              <Button variant="outlined" color="primary" onClick={clearCart}>
+                                   {" "}
+                                   Clear
+                              </Button>
+                         </Grid>
+                         <Grid item xs={5}></Grid>
+                         <Grid item xs={3} alignItems="center">
+                              <div>SubTotal: {subTotalValue > 0 && <span>{subTotalValue}</span>}</div>
+                              <div>Tax: {subTotalValue > 0 && <span>{(subTotalValue * taxRate).toFixed(2)}</span>}</div>
+                              <div>Total: {subTotalValue > 0 && <span>{totalValue.toFixed(2)}</span>}</div>
+                         </Grid>
                     </Grid>
                </Grid>
           </Grid>
