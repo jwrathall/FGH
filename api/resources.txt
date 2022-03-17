@@ -1,0 +1,3 @@
+﻿
+
+dotnet ef dbcontext scaffold Name=defaultDatabase Microsoft.EntityFrameworkCore.Sqlite --output-dir Models --context-dir Data --namespace api.Models --context-namespace api.Data --context MovieContext -f --no-onconfiguring
