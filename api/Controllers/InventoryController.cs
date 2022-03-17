@@ -68,7 +68,6 @@ namespace api.Controllers
             return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
         }
         // PUT api/<InventoryController>/5
-        // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(long id, Movie movie)

@@ -6,13 +6,11 @@ export default function CartItem(props) {
      const [quantity, setQuantity] = useState(1);
      const [cost, setCost] = useState(props.data.retail);
 
+     //on load only
      useEffect(() => {
-          //set starting point for subtotal
-          let x = 1;
-          console.log("item");
           props.subtotal({ id: props.data.id, retail: props.data.retail });
           return () => {};
-     }, [props]);
+     }, []);
 
      const handleChange = (event) => {
           const { name, value } = event.target;
@@ -24,6 +22,10 @@ export default function CartItem(props) {
           } else {
                console.log("Not enough quantity on in stock");
           }
+     };
+
+     const removeItem = () => {
+          props.remove(props.data);
      };
 
      return (
@@ -41,7 +43,9 @@ export default function CartItem(props) {
                <Grid item xs={3}>
                     <p>Cost: {cost}</p>
                </Grid>
-               <Grid item xs={2}></Grid>
+               <Grid item xs={2}>
+                    <Button onClick={removeItem}>Remove</Button>
+               </Grid>
           </Grid>
      );
 }

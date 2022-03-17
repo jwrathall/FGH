@@ -19,12 +19,29 @@ export default function Sale() {
      const [cart, setCart] = useState([]);
      const [subTotal, setSubTotal] = useState([]);
      const [subTotalValue, setSubTotalValue] = useState(0);
+     const [rerender, setRerender] = useState(false);
 
      useEffect(() => {
           console.log("sales page");
           fetchMovies();
           return () => {};
      }, []);
+
+     useEffect(() => {
+          function reCalculate() {
+               if (subTotal.length >= 0) {
+                    let sum = subTotal.reduce((p, c, i) => {
+                         return p + c.retail;
+                    }, 0);
+
+                    setSubTotalValue(sum);
+               }
+          }
+
+          reCalculate();
+
+          return () => {};
+     }, [subTotal, rerender]);
 
      async function fetchMovies() {
           console.log("fetch");
@@ -45,15 +62,20 @@ export default function Sale() {
                let value = subTotal;
                value[foundIndex] = retail;
                setSubTotal(value);
+               setRerender(!rerender);
           } else {
                setSubTotal([...subTotal, retail]);
           }
+     };
 
-          let sum = subTotal.reduce((p, c, i) => {
-               return p + c.retail;
-          }, 0);
+     const removeSingleItem = (movie) => {};
 
-          console.log(sum);
+     const clearCart = () => {
+          let emptyCart = cart;
+          emptyCart.length = 0;
+          setCart(emptyCart);
+          setSubTotal([]);
+          setSubTotalValue(0);
      };
 
      return (
@@ -92,15 +114,15 @@ export default function Sale() {
                     {cart.length > 0 && (
                          <div>
                               {cart.map((item, i) => {
-                                   return <CartItem data={item} key={i} subtotal={addToSubtotal}></CartItem>;
+                                   return <CartItem data={item} key={i} subtotal={addToSubtotal} remove={removeSingleItem}></CartItem>;
                               })}
                          </div>
                     )}
                     <Grid item xs={4}>
-                         x
+                         <Button onClick={clearCart}> Clear</Button>
                     </Grid>
                     <Grid item xs={3}>
-                         SUBTOTAL: {subTotal}
+                         SUBTOTAL: {subTotalValue > 0 && <div>{subTotalValue}</div>}
                     </Grid>
                </Grid>
           </Grid>
