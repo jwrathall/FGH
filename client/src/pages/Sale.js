@@ -37,6 +37,9 @@ export default function Sale() {
      const [totalValue, setTotalValue] = useState(0);
      const [rerender, setRerender] = useState(false);
      const [payment, setPayment] = useState(false);
+     const [showCashPayment, setShowCashPayment] = useState(null);
+     const [showCash, setShowCash] = useState(false);
+     const [showChange, setShowChange] = useState(false);
      const taxRate = 0.13;
 
      useEffect(() => {
@@ -107,9 +110,26 @@ export default function Sale() {
           setSubTotalValue(0);
      };
 
+     const cashHandler = (e) => {
+          setShowCashPayment(e.target.value);
+     };
+
      const handleChange = (event) => {
           console.log(event.target.value);
+          if (event.target.value === "Cash") {
+               setShowCash(true);
+          } else {
+               setShowCash(false);
+          }
           setPayment(event.target.value);
+     };
+
+     const processPayment = () => {
+          if (showCash) {
+               //show what change is required
+          } else {
+               //show paid in full
+          }
      };
 
      return (
@@ -157,14 +177,17 @@ export default function Sale() {
                          </Grid>
                     </Grid>
                     <Grid container spacing={2}>
+                         <Grid item xs={8}></Grid>
                          <Grid item xs={4}>
                               <Button variant="outlined" color="primary" onClick={clearCart}>
                                    {" "}
-                                   Clear
+                                   Clear Cart
                               </Button>
                          </Grid>
-                         <Grid item xs={5}></Grid>
-                         <Grid item xs={3} alignItems="center">
+                    </Grid>
+                    <Grid container spacing={2}>
+                         <Grid item xs={8}></Grid>
+                         <Grid item xs={4} alignItems="center">
                               <div>SubTotal: {subTotalValue > 0 && <span>{subTotalValue}</span>}</div>
                               <div>Tax: {subTotalValue > 0 && <span>{(subTotalValue * taxRate).toFixed(2)}</span>}</div>
                               <div>Total: {subTotalValue > 0 && <span>{totalValue.toFixed(2)}</span>}</div>
@@ -172,79 +195,95 @@ export default function Sale() {
                     </Grid>
                     <Grid container spacing={2}>
                          <Grid item md={6}></Grid>
-                    </Grid>
-                    <div>
-                         <FormControl component="fieldset">
-                              <FormLabel component="legend">Payment Method</FormLabel>
-                              <RadioGroup row aria-label="position" name="position" defaultValue="top">
-                                   <FormControlLabel
-                                        value="Visa"
-                                        control={
-                                             <Radio
-                                                  checked={payment === "Visa"}
-                                                  onChange={handleChange}
+                         <Grid item md={6}>
+                              <div className="right" style={{ width: "100%", marginTop: "35px" }}>
+                                   <FormControl component="fieldset">
+                                        <FormLabel component="legend">Payment Method</FormLabel>
+                                        <RadioGroup row aria-label="position" name="position" defaultValue="top">
+                                             <FormControlLabel
                                                   value="Visa"
-                                                  name="radio-button-demo"
-                                                  inputProps={{ "aria-label": "A" }}
+                                                  control={
+                                                       <Radio
+                                                            checked={payment === "Visa"}
+                                                            onChange={handleChange}
+                                                            value="Visa"
+                                                            name="radio-button-demo"
+                                                            inputProps={{ "aria-label": "A" }}
+                                                       />
+                                                  }
+                                                  label="Visa"
+                                                  labelPlacement="top"
                                              />
-                                        }
-                                        label="Visa"
-                                        labelPlacement="top"
-                                   />
-                                   <FormControlLabel
-                                        value="MC"
-                                        control={
-                                             <Radio
-                                                  checked={payment === "MC"}
-                                                  onChange={handleChange}
+                                             <FormControlLabel
                                                   value="MC"
-                                                  name="radio-button-demo"
-                                                  inputProps={{ "aria-label": "B" }}
+                                                  control={
+                                                       <Radio
+                                                            checked={payment === "MC"}
+                                                            onChange={handleChange}
+                                                            value="MC"
+                                                            name="radio-button-demo"
+                                                            inputProps={{ "aria-label": "B" }}
+                                                       />
+                                                  }
+                                                  label="MC"
+                                                  labelPlacement="top"
                                              />
-                                        }
-                                        label="MC"
-                                        labelPlacement="top"
-                                   />
-                                   <FormControlLabel
-                                        value="Debit"
-                                        control={
-                                             <Radio
-                                                  checked={payment === "Debit"}
-                                                  onChange={handleChange}
+                                             <FormControlLabel
                                                   value="Debit"
-                                                  color="default"
-                                                  name="radio-button-demo"
-                                                  inputProps={{ "aria-label": "D" }}
+                                                  control={
+                                                       <Radio
+                                                            checked={payment === "Debit"}
+                                                            onChange={handleChange}
+                                                            value="Debit"
+                                                            color="default"
+                                                            name="radio-button-demo"
+                                                            inputProps={{ "aria-label": "D" }}
+                                                       />
+                                                  }
+                                                  label="Debit"
+                                                  labelPlacement="top"
                                              />
-                                        }
-                                        label="Debit"
-                                        labelPlacement="top"
-                                   />
-                                   <FormControlLabel
-                                        value="Cash"
-                                        control={
-                                             <Radio
-                                                  checked={payment === "Cash"}
-                                                  onChange={handleChange}
+                                             <FormControlLabel
                                                   value="Cash"
-                                                  color="default"
-                                                  name="radio-button-demo"
-                                                  inputProps={{ "aria-label": "E" }}
-                                                  size="small"
+                                                  control={
+                                                       <Radio
+                                                            checked={payment === "Cash"}
+                                                            onChange={handleChange}
+                                                            value="Cash"
+                                                            color="default"
+                                                            name="radio-button-demo"
+                                                            inputProps={{ "aria-label": "E" }}
+                                                       />
+                                                  }
+                                                  label="Cash"
+                                                  labelPlacement="top"
                                              />
-                                        }
-                                        label="Cash"
-                                        labelPlacement="top"
-                                   />
-                              </RadioGroup>
-                              <TextField id="outlined-basic" label="Cash" variant="outlined" />
-                         </FormControl>
-                    </div>
-                    <div>
-                         <Button variant="contained" color="secondary">
+                                        </RadioGroup>
+                                   </FormControl>
+                              </div>
+                         </Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                         <Grid item md={4}></Grid>
+                         <Grid item md={8}>
+                              <div className="right">
+                                   {" "}
+                                   {showCash && <TextField id="outlined-basic" label="Cash" variant="outlined" onClick={cashHandler} />}
+                              </div>
+                         </Grid>
+                    </Grid>
+
+                    <div className="right" style={{ width: "100%", marginTop: "15px" }}>
+                         <Button variant="contained" color="secondary" onClick={processPayment}>
                               Payment
                          </Button>
                     </div>
+                    <Grid container spacing={2}>
+                         <Grid item md={4}></Grid>
+                         <Grid item md={8}>
+                              <div className="right"> {showChange && <TextField id="outlined-basic" label="Change" variant="outlined" />}</div>
+                         </Grid>
+                    </Grid>
                </Grid>
           </Grid>
      );
