@@ -13,6 +13,12 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Radio from "@material-ui/core/Radio";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +36,7 @@ export default function Sale() {
      const [subTotalValue, setSubTotalValue] = useState(0);
      const [totalValue, setTotalValue] = useState(0);
      const [rerender, setRerender] = useState(false);
+     const [payment, setPayment] = useState(false);
      const taxRate = 0.13;
 
      useEffect(() => {
@@ -100,6 +107,11 @@ export default function Sale() {
           setSubTotalValue(0);
      };
 
+     const handleChange = (event) => {
+          console.log(event.target.value);
+          setPayment(event.target.value);
+     };
+
      return (
           <Grid container spacing={2} style={{ marginTop: "25px" }}>
                <Grid item md={6}>
@@ -158,6 +170,81 @@ export default function Sale() {
                               <div>Total: {subTotalValue > 0 && <span>{totalValue.toFixed(2)}</span>}</div>
                          </Grid>
                     </Grid>
+                    <Grid container spacing={2}>
+                         <Grid item md={6}></Grid>
+                    </Grid>
+                    <div>
+                         <FormControl component="fieldset">
+                              <FormLabel component="legend">Payment Method</FormLabel>
+                              <RadioGroup row aria-label="position" name="position" defaultValue="top">
+                                   <FormControlLabel
+                                        value="Visa"
+                                        control={
+                                             <Radio
+                                                  checked={payment === "Visa"}
+                                                  onChange={handleChange}
+                                                  value="Visa"
+                                                  name="radio-button-demo"
+                                                  inputProps={{ "aria-label": "A" }}
+                                             />
+                                        }
+                                        label="Visa"
+                                        labelPlacement="top"
+                                   />
+                                   <FormControlLabel
+                                        value="MC"
+                                        control={
+                                             <Radio
+                                                  checked={payment === "MC"}
+                                                  onChange={handleChange}
+                                                  value="MC"
+                                                  name="radio-button-demo"
+                                                  inputProps={{ "aria-label": "B" }}
+                                             />
+                                        }
+                                        label="MC"
+                                        labelPlacement="top"
+                                   />
+                                   <FormControlLabel
+                                        value="Debit"
+                                        control={
+                                             <Radio
+                                                  checked={payment === "Debit"}
+                                                  onChange={handleChange}
+                                                  value="Debit"
+                                                  color="default"
+                                                  name="radio-button-demo"
+                                                  inputProps={{ "aria-label": "D" }}
+                                             />
+                                        }
+                                        label="Debit"
+                                        labelPlacement="top"
+                                   />
+                                   <FormControlLabel
+                                        value="Cash"
+                                        control={
+                                             <Radio
+                                                  checked={payment === "Cash"}
+                                                  onChange={handleChange}
+                                                  value="Cash"
+                                                  color="default"
+                                                  name="radio-button-demo"
+                                                  inputProps={{ "aria-label": "E" }}
+                                                  size="small"
+                                             />
+                                        }
+                                        label="Cash"
+                                        labelPlacement="top"
+                                   />
+                              </RadioGroup>
+                              <TextField id="outlined-basic" label="Cash" variant="outlined" />
+                         </FormControl>
+                    </div>
+                    <div>
+                         <Button variant="contained" color="secondary">
+                              Payment
+                         </Button>
+                    </div>
                </Grid>
           </Grid>
      );
