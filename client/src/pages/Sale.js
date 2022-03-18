@@ -101,7 +101,7 @@ export default function Sale() {
      };
 
      return (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} style={{ marginTop: "25px" }}>
                <Grid item md={6}>
                     {movies.length > 0 ? (
                          <div>

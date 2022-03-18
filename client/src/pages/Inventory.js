@@ -28,14 +28,9 @@ export default function Inventory() {
      }
 
      return (
-          <div>
+          <div style={{ marginTop: "25px" }}>
                {movies.length > 0 ? (
                     <div>
-                         <div>
-                              <Button color="primary" onClick={() => history("/add")}>
-                                   Add New
-                              </Button>
-                         </div>
                          <TableContainer component={Paper}>
                               <Table>
                                    <TableHead>
@@ -60,6 +55,12 @@ export default function Inventory() {
                                    )}
                               </Table>
                          </TableContainer>
+                         <div></div>
+                         <div className="right" style={{ width: "100%", marginTop: "15px" }}>
+                              <Button variant="contained" color="primary" onClick={() => history("/add")} style={{ marginRight: "15px" }}>
+                                   Add New
+                              </Button>
+                         </div>
                     </div>
                ) : (
                     <div> no Movies to show</div>

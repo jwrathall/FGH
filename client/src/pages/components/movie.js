@@ -19,7 +19,7 @@ export default function Movie(props) {
                <TableCell>{props.data.cost}</TableCell>
                <TableCell>{props.data.retail}</TableCell>
                <TableCell>{props.data.quantity}</TableCell>
-               <TableCell>
+               <TableCell style={{ float: "right" }}>
                     <Button variant="outlined" onClick={() => history("/edit/" + props.data.id + "")}>
                          Edit
                     </Button>
