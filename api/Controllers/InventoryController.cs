@@ -114,7 +114,7 @@ namespace api.Controllers
 
             return NoContent();
         }
-          
+
         private bool MovieExists(long id)
         {
             return _context.Movies.Any(e => e.Id == id);
