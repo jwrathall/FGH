@@ -46,3 +46,14 @@
  margin-top:10px;
  margin-bottom:10px;
 }
+.cart-movie-header{
+  margin-bottom:0px
+}
+
+.subtotal-container{
+  margin-top:25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}

@@ -22,7 +22,7 @@ export default function MovieSale(props) {
                <TableCell>
                     &nbsp;
                     <Button variant="outlined" onClick={() => buyMovie(props.data)}>
-                         Buy
+                         Add to cart
                     </Button>
                </TableCell>
           </TableRow>

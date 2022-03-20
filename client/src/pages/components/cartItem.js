@@ -43,7 +43,7 @@ export default function CartItem(props) {
                <Grid container spacing={2}>
                     <Grid item md={6}>
                          <div>
-                              <h4>{props.data.name}</h4>
+                              <h4 className="cart-movie-header">{props.data.name}</h4>
                               <div>{props.data.genre}</div>
                               <div>{props.data.releaseDate}</div>
                          </div>
@@ -66,8 +66,8 @@ export default function CartItem(props) {
                               Remove
                          </Button>
                     </Grid>
-                    <hr></hr>
                </Grid>
+               <hr></hr>
           </Box>
      );
 }
