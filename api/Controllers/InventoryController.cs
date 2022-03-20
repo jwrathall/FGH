@@ -109,7 +109,7 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            //_context.Movies.Remove(movie);
+            _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
 
             return NoContent();

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieSale from "./components/movieSale";
 import CartItem from "./components/cartItem";
-import Payment from "./components/payment";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -169,7 +168,6 @@ export default function Sale() {
                          <div> no Movies to show</div>
                     )}
                </Grid>
-               {/* <ReactToPrint trigger={() => <button>Print this out!</button>} content={() => componentRef.current}>  </ReactToPrint> */}
                <Grid item md={6} ref={componentRef}>
                     {cart.length > 0 ? (
                          <div>

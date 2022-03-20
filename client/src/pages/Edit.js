@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Form from "./components/form";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import Button from "@material-ui/core/Button";
 export default function Edit(props) {
      const [movie, setMovie] = useState(null);
      let { id } = useParams();
